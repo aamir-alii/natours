@@ -24,9 +24,7 @@ const getCheckoutSession = catchAsync(async (req, res, next) => {
             name: `${tour.name} Tour`,
             description: tour.summary,
             images: [
-              `${req.protocol}://${req.get('host')}/img/tours/${
-                tour.images[0]
-              }`,
+              `https://natours-aamir.cyclic.app/img/tours/${tour.imageCover}`,
             ],
           },
         },

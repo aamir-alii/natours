@@ -15,16 +15,12 @@ module.exports = async (app) => {
   app.set('view engine', 'pug');
   app.set('views', `${__dirname}/../views`);
   // for setting important headers // http header
-  app.use((req, res, next) => {
-    next();
-    res.setHeader(
-      'Content-Security-Policy',
-      "script-src  'self' api.mapbox.com https://js.stripe.com/v3/ unsafe-inline",
-      "script-src-elem 'self' api.mapbox.com https://js.stripe.com/v3/",
-      'font-src *'
-    );
-  });
   app.use(helmet({}));
+
+  app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', 'false');
+    next();
+  });
   // router mounting
 
   app.use(compression());
