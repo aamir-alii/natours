@@ -10,7 +10,7 @@ const signToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES,
   });
 };
-const createSendToken = (res, user, statusCode) => {
+const createSendToken = (req, res, user, statusCode) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -34,7 +34,7 @@ const signup = catchAsync(async (req, res, next) => {
   const user = await User.create(req.body);
   const url = `${req.protocol}://${req.get('host')}/me`;
   await new Email(user, url).sendWelcome();
-  createSendToken(res, user, 201);
+  createSendToken(req, res, user, 201);
 });
 
 const login = catchAsync(async (req, res, next) => {
@@ -48,7 +48,7 @@ const login = catchAsync(async (req, res, next) => {
   if (!user || !check)
     return next(new AppError('incorrect email or password', 401));
   // 4) if everything is correct send token
-  createSendToken(res, user, 200);
+  createSendToken(req, res, user, 200);
 });
 const protect = catchAsync(async (req, res, next) => {
   // [ ] Get token and check if it exist
@@ -164,7 +164,7 @@ const resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
   //  [ ] login user
-  createSendToken(res, user, 200);
+  createSendToken(req, res, user, 200);
 });
 const updatePassword = catchAsync(async (req, res, next) => {
   // Get User from the database
@@ -177,7 +177,7 @@ const updatePassword = catchAsync(async (req, res, next) => {
   user.password = password;
   user.passwordConfirm = passwordConfirm;
   await user.save();
-  createSendToken(res, user, 200);
+  createSendToken(req, res, user, 200);
 });
 const logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
