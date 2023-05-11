@@ -15,17 +15,18 @@ module.exports = async (app) => {
   app.set('view engine', 'pug');
   app.set('views', `${__dirname}/../views`);
   // for setting important headers // http header
-  // app.use(helmet({}));
-  // router mounting
   app.use((req, res, next) => {
+    next();
     res.setHeader(
       'Content-Security-Policy',
       "script-src  'self' api.mapbox.com https://js.stripe.com/v3/ unsafe-inline",
       "script-src-elem 'self' api.mapbox.com https://js.stripe.com/v3/",
       'font-src *'
     );
-    next();
   });
+  app.use(helmet({}));
+  // router mounting
+
   app.use(compression());
   app.use(cors({ origin: '*' }));
   // rate limiter from same ip
