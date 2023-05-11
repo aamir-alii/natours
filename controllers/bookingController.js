@@ -50,9 +50,7 @@ createBookingCheckout = catchAsync(async (session) => {
   const tourId = session.client_reference_id;
   const userId = (await User.findOne({ email: session.customer_email })).id;
   const price = session.amount_total / 100 || 1000;
-  console.log(tourId, userId, price);
   const booking = await Booking.create({ user: userId, tour: tourId, price });
-  console.log(booking);
 });
 const webhookCheckout = catchAsync(async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
@@ -67,7 +65,7 @@ const webhookCheckout = catchAsync(async (req, res, next) => {
     return next(new AppError(`Webhook Error: ${error.message}`, 400));
   }
 
-  if (event.type === 'checkout.session.complete')
+  if (event.type === 'checkout.session.completed')
     await createBookingCheckout(event.data.object);
   res.status(200).json({ recieved: true });
 });
