@@ -44,7 +44,6 @@ const updateMe = catchAsync(async (req, res, next) => {
   if (req.file) {
     toBeUpdated.photo = req.file.filename;
   }
-  console.log(toBeUpdated);
   if (req.body.password)
     return next(
       new AppError(

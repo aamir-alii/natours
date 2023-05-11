@@ -32,7 +32,6 @@ if (userDataForm) {
     form.append('name', name);
     form.append('email', email);
     form.append('photo', photo);
-    console.log(form);
     await updateSetting(form, 'data');
     setTimeout(() => location.reload(true), 3000);
   });

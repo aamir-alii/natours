@@ -8,6 +8,7 @@ const hpp = require('hpp');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 module.exports = async (app) => {
   // for server side rendering
@@ -25,7 +26,7 @@ module.exports = async (app) => {
     );
     next();
   });
-
+  app.use(compression());
   app.use(cors({ origin: '*' }));
   // rate limiter from same ip
   const limiter = rateLimit({

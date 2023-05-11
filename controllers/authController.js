@@ -38,7 +38,6 @@ const signup = catchAsync(async (req, res, next) => {
 
 const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
   // 1) if email and password exists
   if (!email || !password)
     return next(new AppError('Please provide email and password'), 400);
@@ -124,7 +123,6 @@ const restrictTo = (...roles) => {
 const forgetPassword = catchAsync(async (req, res, next) => {
   // [ ] check if user exist with given email
   const user = await User.findOne({ email: req.body.email });
-  console.log(user);
   if (!user)
     return next(new AppError('there is no user with givin email', 404));
   // [ ] generate random token
