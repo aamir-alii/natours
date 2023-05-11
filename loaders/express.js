@@ -9,6 +9,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
+const { bookingController } = require('../controllers');
 
 module.exports = async (app) => {
   // for server side rendering
@@ -21,10 +22,17 @@ module.exports = async (app) => {
     res.setHeader('Content-Security-Policy', 'false');
     next();
   });
-  // router mounting
-
+  // router m
+  app.enable('trust proxy');
   app.use(compression());
   app.use(cors({ origin: '*' }));
+
+  app.post(
+    '/webhook-checkout',
+    bodyParser.raw({ type: 'application/json' }),
+    bookingController.webhookCheckout
+  );
+
   // rate limiter from same ip
   const limiter = rateLimit({
     max: 100,

@@ -7,7 +7,7 @@ const run = async () => {
     dbName: 'Natours',
   });
 };
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 7000;
 
 run()
   .then((_con) => {
@@ -18,6 +18,7 @@ run()
 
     process.on('uncaughtException', (err) => {
       console.log('uncaught Exeception! 💥 Shuttig Down!');
+      console.log(err);
       server.close(() => {
         process.exit(1);
       });
@@ -29,7 +30,16 @@ run()
         process.exit(1);
       });
     });
+    process.on('SIGTERM', () => {
+      console.log('SIGTERM Recieved! 💥 Shuttig Down!');
+      server.close(() => {
+        process.exit(1);
+      });
+    });
   })
-  .catch((error) => console.log(error.message));
+  .catch((error) => {
+    console.log(error.message);
+    process.exit();
+  });
 
 // process.on('uncaughtException');
