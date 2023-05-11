@@ -1,0 +1,11 @@
+[
+  {
+    "applyTo": "*",
+    "headers": [
+      {
+        "name": "Content-Security-Policy",
+        "value": "default-src ws://localhost:59242  'self' api.mapbox.com https://js.stripe.com/v3/ unsafe-inline"
+      }
+    ]
+  }
+]
