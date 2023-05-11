@@ -20,7 +20,7 @@ const getCheckoutSession = catchAsync(async (req, res, next) => {
       {
         price_data: {
           currency: 'usd',
-          unit_amount: tour.price * 1000,
+          unit_amount: tour.price,
           product_data: {
             name: `${tour.name} Tour`,
             description: tour.summary,
@@ -49,7 +49,7 @@ createBookingCheckout = catchAsync(async (session) => {
   //     "client_reference_id": "5c88fa8cf4afda39709c295a",
   const tourId = session.client_reference_id;
   const userId = (await User.findOne({ email: session.customer_email })).id;
-  const price = session.amount_total / 100 || 1000;
+  const price = session.amount_total;
   const booking = await Booking.create({ user: userId, tour: tourId, price });
 });
 const webhookCheckout = catchAsync(async (req, res, next) => {
