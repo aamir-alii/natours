@@ -3,6 +3,7 @@ import { login, logout } from './login.js';
 import { displayMap } from './mapbox.js';
 import { updateSetting } from './updateSetting.js';
 import { bookTour } from './stripe.js';
+import { showAlert, hideAlert } from './alerts.js';
 
 // DOM Elements
 const loginBtn = document.getElementById('login');
@@ -75,4 +76,10 @@ if (bookTourElement) {
     await bookTour(tourId);
     e.target.textContent = 'Book Tour Now!';
   });
+}
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) {
+  showAlert('success', alertMessage);
+  hideAlert();
 }

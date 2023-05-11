@@ -1,6 +1,11 @@
 const { Tour, User, Booking } = require('../models/');
 const { catchAsync, AppError } = require('../utils/');
 
+const getAlerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking') res.locals.alert = 'Your booking was successfull';
+  next();
+};
 const getOverview = catchAsync(async (req, res, next) => {
   // get All tour
   const tours = await Tour.find();
@@ -68,4 +73,5 @@ module.exports = {
   getLoginForm,
   getAccount,
   updateUserData,
+  getAlerts,
 };
