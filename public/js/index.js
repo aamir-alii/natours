@@ -79,7 +79,10 @@ if (bookTourElement) {
 }
 
 const alertMessage = document.querySelector('body').dataset.alert;
+console.log(alertMessage);
 if (alertMessage) {
+  console.log('Ok');
   showAlert('success', alertMessage);
-  hideAlert();
+  // hideAlert();
+  setTimeout(hideAlert, 5000);
 }
