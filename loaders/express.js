@@ -15,7 +15,7 @@ module.exports = async (app) => {
   app.set('view engine', 'pug');
   app.set('views', `${__dirname}/../views`);
   // for setting important headers // http header
-  app.use(helmet({}));
+  // app.use(helmet({}));
   // router mounting
   app.use((req, res, next) => {
     res.setHeader(
